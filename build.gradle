@@ -1,0 +1,59 @@
+buildscript {
+	ext {
+	        springBootVersion = '2.3.1.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'org.springframework.samples'
+version = '2.1.0.BUILD-SNAPSHOT'
+
+description = """petclinic"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+	options.encoding = 'UTF-8'
+}
+
+
+
+repositories {
+        
+     maven { url "https://repo.spring.io/snapshot" }
+     maven { url "https://repo.spring.io/milestone" }
+     maven { url "https://repo.maven.apache.org/maven2" }
+}
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-actuator', version:'2.3.0.RC1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version:'2.3.0.RC1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-cache', version:'2.3.0.RC1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jdbc', version:'2.3.0.RC1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'2.3.0.RC1'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version:'2.3.0.RC1'
+    compile group: 'org.flywaydb', name: 'flyway-core', version:'6.4.1'
+    compile group: 'com.github.ben-manes.caffeine', name: 'caffeine', version:'2.8.2'
+    compile group: 'org.springframework.cloud', name: 'spring-cloud-starter-sleuth', version:'2.2.2.RELEASE'
+    compile group: 'com.wavefront', name: 'wavefront-spring-boot-starter', version:'2.0.0-RC1'
+    compile group: 'org.webjars', name: 'webjars-locator-core', version:'0.45'
+    compile group: 'org.webjars', name: 'jquery', version:'2.2.4'
+    compile group: 'org.webjars', name: 'jquery-ui', version:'1.11.4'
+    compile group: 'org.webjars', name: 'bootstrap', version:'3.3.6'
+    compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.3.0.RC1'
+    runtime(group: 'mysql', name: 'mysql-connector-java', version:'8.0.20') {
+exclude(module: 'protobuf-java')
+    }
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.3.0.RC1') {
+exclude(module: 'junit-vintage-engine')
+    }
+    testCompile group: 'org.testcontainers', name: 'mysql', version:'1.14.1'
+}
