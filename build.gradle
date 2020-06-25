@@ -3,16 +3,19 @@ buildscript {
 	        springBootVersion = '2.3.1.RELEASE'
 	}
 	repositories {
-		mavenCentral()
-	}
+                mavenCentral()
+                jcenter()
+        }
 	dependencies {
 		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
+                classpath("com.bmuschko:gradle-docker-plugin:6.4.0")
+        }
 }
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.bmuschko.docker-spring-boot-application'
 
 group = 'org.springframework.samples'
 version = '2.1.0.BUILD-SNAPSHOT'
@@ -24,8 +27,6 @@ targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
 	options.encoding = 'UTF-8'
 }
-
-
 
 repositories {
         
@@ -56,4 +57,11 @@ exclude(module: 'protobuf-java')
 exclude(module: 'junit-vintage-engine')
     }
     testCompile group: 'org.testcontainers', name: 'mysql', version:'1.14.1'
+}
+docker {
+    springBootApplication {
+        baseImage = 'openjdk:8-alpine'
+        ports=[8080]
+        images=['petclinic:1.0', 'petclinic:latest']
+    }
 }

@@ -4,6 +4,7 @@ build/*
 .classpath
 .project
 .idea
+.gradle
 *.iml
 /target
 .sts4-cache/
