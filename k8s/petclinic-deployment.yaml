@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: petclinic
-        image: arm7tdmi/spring-petclinic-jdbc:0.1
+        image: arm7tdmi/spring-petclinic-jdbc:0.2
         securityContext:
           runAsUser: 1000
         ports:
