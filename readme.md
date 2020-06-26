@@ -19,7 +19,6 @@ $ ./gradlew dockerBuildImage
 - $ cd k8s
 2. Create PV for MySQL DB
 - $ kubectl create -f mysql-pv.yaml
->> Warning: It uses a 'hostPath' typed volume so you should choose other type of PV like awsElasticBlockStore, gcePersistentDisk, nfs.
 3. Create Deployment and Service(ClusterIP) of MySQL app
 - $ kubectl create -f mysql-deployment.yaml
 4. Before running petclinic app, you should create a directory for logging on each worker node
