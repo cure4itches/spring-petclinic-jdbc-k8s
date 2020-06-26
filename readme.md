@@ -1,24 +1,29 @@
-# Spring PetClinic Sample Application built with Spring Data JDBC
+# K8s version of Spring PetClinic Sample Application built with Spring Data JDBC
 
-This is a branch of the official [Spring PetClinic](https://github.com/spring-projects/spring-petclinic) application with domain & persistence layer built with [Spring Data JDBC](https://projects.spring.io/spring-data-jdbc/) instead of [Spring Data JPA](https://projects.spring.io/spring-data-jpa/).
+This is a branch of the [Spring PetClinic Sample Application built with Spring Data JDBC](https://github.com/spring-petclinic/spring-petclinic-data-jdbc)
 
 Additionally:
 
-- uses [TestContainers](http://testcontainers.org/) to spin up MySQL during integtation tests
-- uses [Wavefront](https://www.wavefront.com/) for monitoring
+- uses Gradle and Docker for build
+- uses K8s for Execution
 
-Check original project [readme](https://github.com/spring-projects/spring-petclinic/blob/master/readme.md) for introduction the project, how to run, and how to contribute.
+# How to Build
+1. Build the spring boot app - petclinic
+$ ./gradlew build
+2. Build the docker image
+$ ./gradlew dockerBuildImage
+>> The name of the docker image is 'petclinic:1.0' and 'petclinic:latest'. You can tag them and push to Docker Hub or your private docker registry.
 
-## Understanding the Spring Petclinic application with a few diagrams
+# How to Run(on K8s):
+1. move to k8s directory
+$ cd k8s
+2. Create PV for MySQL DB
+$ kubectl create -f mysql-pv.yaml
+>> Warning: It uses a 'hostPath' typed volume so you should choose other type of PV like awsElasticBlockStore, gcePersistentDisk, nfs.
+3. Create Deployment and Service(ClusterIP) of MySQL app
+$ kubectl create -f mysql-deployment.yaml
+4. Before running petclinic app, you should create a directory for logging on each worker node
+$ mkdir /logs && chown 1000:1000 /logs
+5. Create Deployment and Service and Ingress(for nginx ingress controller) of petclinic app
+$ kubectl create -f petclinic-deployment.yaml
 
-[See the presentation here](http://fr.slideshare.net/AntoineRey/spring-framework-petclinic-sample-application)
-
-## Interesting Spring Petclinic forks
-
-The Spring Petclinic master branch in the main [spring-projects](https://github.com/spring-projects/spring-petclinic)
-GitHub org is the "canonical" implementation, currently based on Spring Boot and Thymeleaf.
-
-This [spring-petclinic-data-jdbc](https://github.com/spring-petclinic/spring-petclinic-data-jdbc) project is one of the [several forks](https://spring-petclinic.github.io/docs/forks.html) 
-hosted in a special GitHub org: [spring-petclinic](https://github.com/spring-petclinic).
-If you have a special interest in a different technology stack
-that could be used to implement the Pet Clinic then please join the community there.

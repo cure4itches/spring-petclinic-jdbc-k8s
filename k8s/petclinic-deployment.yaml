@@ -1,3 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: petclinic
+spec:
+  ports:
+  - port: 8080
+  selector:
+    app: petclinic
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: petclinic-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          serviceName: petclinic
+          servicePort: 8080
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,7 +42,8 @@ spec:
     spec:
       containers:
       - name: petclinic
-        image: arm7tdmi/spring-petclinic-jdbc:0.2
+        image: arm7tdmi/spring-petclinic-jdbc:latest
+        imagePullPolicy: Always
         securityContext:
           runAsUser: 1000
         ports:
