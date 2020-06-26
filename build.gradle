@@ -50,12 +50,8 @@ dependencies {
     compile group: 'org.webjars', name: 'jquery-ui', version:'1.11.4'
     compile group: 'org.webjars', name: 'bootstrap', version:'3.3.6'
     compile group: 'org.springframework.boot', name: 'spring-boot-devtools', version:'2.3.0.RC1'
-    runtime(group: 'mysql', name: 'mysql-connector-java', version:'8.0.20') {
-exclude(module: 'protobuf-java')
-    }
-    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.3.0.RC1') {
-exclude(module: 'junit-vintage-engine')
-    }
+    runtime(group: 'mysql', name: 'mysql-connector-java', version:'8.0.20') {exclude(module: 'protobuf-java')}
+    testCompile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'2.3.0.RC1') {exclude(module: 'junit-vintage-engine')}
     testCompile group: 'org.testcontainers', name: 'mysql', version:'1.14.1'
 }
 docker {

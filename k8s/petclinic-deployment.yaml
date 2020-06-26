@@ -17,5 +17,23 @@ spec:
       containers:
       - name: petclinic
         image: arm7tdmi/spring-petclinic-jdbc:0.1
+        securityContext:
+          runAsUser: 1000
         ports:
-        - containerPort: 8080
+        - name:  liveness-port
+          containerPort: 8080
+          hostPort: 8080
+        volumeMounts:
+        - name: log-dir
+          mountPath: /app/logs
+        livenessProbe:
+          httpGet:
+            path: /manage/health
+            port: liveness-port
+          failureThreshold: 3
+          periodSeconds: 10
+      volumes:
+      - name: log-dir
+        hostPath:
+          path: /logs
+          type: Directory
