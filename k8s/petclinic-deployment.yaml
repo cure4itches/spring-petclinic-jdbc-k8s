@@ -46,6 +46,7 @@ spec:
         imagePullPolicy: Always
         securityContext:
           runAsUser: 1000
+        command: ["sh", "-c", "java -cp /app/resources:/app/classes:/app/libs/* org.springframework.samples.petclinic.PetClinicApplication 2>&1 | tee /app/logs/app.log"]
         ports:
         - name:  liveness-port
           containerPort: 8080
